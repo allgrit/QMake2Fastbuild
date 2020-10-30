@@ -1,0 +1,117 @@
+// Visual Studio 2019
+//------------------------------------------------------------------------------
+.VS2019_BasePath         = 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community'
+//.VS2019_Version          = '14.23.28105'
+.VS2019_Version          = .MSVC_Compiler_Version
+
+// X64 Compiler
+//------------------------------------------------------------------------------
+Compiler( 'Compiler-VS2019-x64' )
+{
+    .Root       = '$VS2019_BasePath$/VC/Tools/MSVC/$VS2019_Version$/bin/Hostx64/x64'
+    .Executable = '$Root$/cl.exe'
+    .ExtraFiles = { '$Root$/c1.dll'
+                    '$Root$/c1xx.dll',
+                    '$Root$/c2.dll',
+                    '$Root$/msobj140.dll'
+                    '$Root$/mspdb140.dll'
+                    '$Root$/mspdbcore.dll'
+                    '$Root$/mspdbsrv.exe'
+                    '$Root$/mspft140.dll'
+                    '$Root$/msvcp140.dll'
+                    '$Root$/tbbmalloc.dll' // Required as of 16.2 (14.22.27905)
+                    '$Root$/vcruntime140.dll'
+                    '$Root$/1033/clui.dll'
+                    '$Root$/$MSVC_Language_Code$/mspft140ui.dll' // Localized messages for static analysis
+                  }
+    
+    ^VS_CL_EXE  = .Executable
+}
+
+// X64 ToolChain for Windows
+//------------------------------------------------------------------------------
+.ToolChain_VS2019_Windows_X64 =
+[
+    .Platform                       = 'x64'
+
+    // Paths
+    .VSIncludePaths                 = ' -I"$VS2019_BasePath$/VC/Tools/MSVC/$VS2019_Version$/include/"'
+    .VSLibPaths                     = ' /LIBPATH:"$VS2019_BasePath$/VC/Tools/MSVC/$VS2019_Version$/lib/x64"'
+
+    // Compiler
+    .Compiler                       = 'Compiler-VS2019-X64'
+    .CommonCompilerOptions          = ' -nologo'
+                                    + ' -Zc:wchar_t'
+                                    + ' -FS'
+                                    + ' -Zc:rvalueCast'
+                                    + ' -Zc:inline'
+                                    
+                                    // Enable Warnings
+                                    + ' -W3'
+                                    + ' -w34100'
+                                    + ' -w34189'
+                                    + ' -w44996'
+                                    
+                                    // Exceptions
+                                    + ' -EHsc'
+                                    
+                                    // Defines
+                                    + ' -DUNICODE'
+                                    + ' -D_UNICODE'
+                                    
+                                    // Include Paths
+                                    + ' /I"./"'
+                                    + .VSIncludePaths
+
+    .CompilerOptions                = ' -c $CommonCompilerOptions$ "%1" /Fo"%2"'
+    .PCHOptions                     = ' -c -Yc -Fp"%2" -Fo"%3" $CommonCompilerOptions$ -TP "%1"'
+
+    // Librarian
+    .Librarian                      = '$VS2019_BasePath$/VC/Tools/MSVC/$VS2019_Version$/bin/Hostx64/x64/lib.exe'
+    .LibrarianOptions               = '/NODEFAULTLIB /NOLOGO /OUT:"%2" "%1"'
+
+    // Linker
+    .Linker                         = '$VS2019_BasePath$/VC/Tools/MSVC/$VS2019_Version$/bin/Hostx64/x64/link.exe'
+    
+    .LinkerOptions                  = '/NOLOGO /DYNAMICBASE /NXCOMPAT'
+                                    + ' /SUBSYSTEM:WINDOWS "/MANIFESTDEPENDENCY:type=^'win32^''
+                                    + ' name=^'Microsoft.Windows.Common-Controls^''
+                                    + ' version=^'6.0.0.0^''
+                                    + ' publicKeyToken=^'6595b64144ccf1df^''
+                                    + ' language=^'*^''
+                                    + ' processorArchitecture=^'*^'"'
+                                    + ' /MANIFEST:embed'
+                                    + ' /OUT:"%2" "%1"'
+                                    
+                                    // Default libraries
+                                    + .VSLibPaths
+                                    + ' kernel32.lib'
+                                    + ' user32.lib'
+                                    + ' gdi32.lib'
+                                    + ' winspool.lib'
+                                    + ' comdlg32.lib'
+                                    + ' advapi32.lib'
+                                    + ' shell32.lib'
+                                    + ' ole32.lib'
+                                    + ' oleaut32.lib'
+                                    + ' uuid.lib'
+                                    + ' odbc32.lib'
+                                    + ' odbccp32.lib'
+                                    
+    // Faster Caching
+        .UseLightCache_Experimental = true
+]
+
+// PATH environment variable
+//------------------------------------------------------------------------------
+.VS_2019_PATH                       = '$VS2019_BasePath$/Common7/IDE/;$VS2019_BasePath$/VC/Tools/MSVC/$VS2019_Version$/bin/Hostx64/x64'
+
+// Platform Toolset for Project Generation
+//------------------------------------------------------------------------------
+.VS_2019_PlatformToolset            = 'v142'
+
+// _MSC_VER
+//------------------------------------------------------------------------------
+.VS2019_MSC_VER                     = '1920'
+
+//------------------------------------------------------------------------------

@@ -1,0 +1,2 @@
+.Defines = '' 
+         + ' -DQT_DEPRECATED_WARNINGS'

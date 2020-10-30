@@ -1,0 +1,42 @@
+// Qt
+//------------------------------------------------------------------------------
+
+// Select desired Qt version
+//------------------------------------------------------------------------------
+//#define USING_QT5_12_6
+
+// Activate
+//------------------------------------------------------------------------------
+#if USING_QT5_9_1
+    #include "Qt591.bff"
+    .QT_VERSION                         = .QT5_9_1_VERSION
+    .ToolChain_Qt                       = .ToolChain_Qt5_9_1
+    .QT_PATH                            = .QT5_9_1_PATH
+    .QtIncPaths                         = .Qt5_9_1IncPaths
+    Alias( 'Qt-uic' ) { .Targets = 'Compiler-Qt5.9.1-uic' }
+    Alias( 'Qt-moc' ) { .Targets = 'Compiler-Qt5.9.1-moc' }
+    Alias( 'Qt-rcc' ) { .Targets = 'Compiler-Qt5.9.1-rcc' }
+#endif
+
+#if USING_QT5_13_2
+    #include "Qt5132.bff"
+    .QT_VERSION                         = .QT5_13_2_VERSION
+    .ToolChain_Qt                       = .ToolChain_Qt5_13_2
+    .QT_PATH                            = .QT5_13_2_PATH
+    .QtIncPaths                         = .Qt5_13_2IncPaths
+    Alias( 'Qt-uic' ) { .Targets = 'Compiler-Qt5.13.2-uic' }
+    Alias( 'Qt-moc' ) { .Targets = 'Compiler-Qt5.13.2-moc' }
+    Alias( 'Qt-rcc' ) { .Targets = 'Compiler-Qt5.13.2-rcc' }
+#endif
+
+#if USING_QT5_12_6
+    #include "Qt5126.bff"
+    .QT_VERSION                         = .QT5_12_6_VERSION
+    .ToolChain_Qt                       = .ToolChain_Qt5_12_6
+    .QT_PATH                            = .QT5_12_6_PATH
+    .QtIncPaths                         = .Qt5_12_6IncPaths
+    Alias( 'Qt-uic' ) { .Targets = 'Compiler-Qt5.12.6-uic' }
+    Alias( 'Qt-moc' ) { .Targets = 'Compiler-Qt5.12.6-moc' }
+    Alias( 'Qt-rcc' ) { .Targets = 'Compiler-Qt5.12.6-rcc' }
+#endif
+//------------------------------------------------------------------------------

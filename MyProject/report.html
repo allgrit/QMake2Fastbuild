@@ -1,0 +1,184 @@
+<!doctype html>
+<style type="text/css">
+body{
+font-family:arial;
+width:1000px;
+margin:0 auto;
+font-size:13px
+}
+th{
+background-color:#e0e0e0;
+padding:4px;
+height:15px;
+text-align:left;
+border-top-left-radius:5px;
+-moz-border-radius-topleft:5px;
+border-top-right-radius:5px;
+-moz-border-radius-topright:5px;
+font-weight:bold;
+}
+tr:nth-child(odd){
+background-color:#f0f0f0;
+}
+h1{
+background-color:#b0b0b0;
+border-radius:5px;
+padding:4px;
+height:40px;
+text-align:left;
+font-weight:bold;
+}
+h2{
+background-color:#d0d0d0;
+border-radius:5px;
+padding:4px;
+height:27px;
+text-align:left;
+font-weight:bold;
+}
+table{
+  padding-left:10px;
+}
+td
+word-break:break-all;
+padding:3px;
+}
+.perc{
+color:#aaaaaa;
+font-size:10px
+}
+</style>
+<html>
+<head>
+<meta charset="UTF-8" />
+<title>FASTBuild Report</title>
+</head>
+<body>
+<script type="text/javascript">
+function getTotal(data)
+{
+ var total = 0;
+ for (var j = 0; j < data.length; j++)
+ {
+  total += (typeof data[j] == 'number') ? data[j] : 0;
+ }
+ return total;
+}
+function plotData(canvasName,myData,myLabels,myColor, units)
+{
+ var canvas;
+ var ctx;
+ var lastend = 0;
+ var myTotal = getTotal(myData);
+ canvas = document.getElementById(canvasName);
+ ctx = canvas.getContext("2d");
+ ctx.clearRect(0, 0, canvas.width, canvas.height);
+ ctx.fillStyle = "black";
+ ctx.beginPath();
+ ctx.moveTo(70,70);
+ ctx.arc(70,70,66,0,(Math.PI*2),false);
+ ctx.lineTo(70,70);
+ ctx.fill();
+ for (var i = 0; i < myData.length; i++)
+ {
+  ctx.fillStyle = myColor[i];
+  ctx.beginPath();
+  ctx.moveTo(70,70);
+  ctx.arc(70,70,65,lastend,lastend+(Math.PI*2*(myData[i]/myTotal)),false);
+  ctx.lineTo(70,70);
+  ctx.fill();
+  lastend += Math.PI*2*(myData[i]/myTotal);
+ }
+ for (var i = 0; i < myData.length; i++)
+ {
+  var y = 20 + ( i * 25 );
+  ctx.fillStyle="#888888";
+  ctx.fillRect(200-1,y-15-1,22,22)
+  ctx.fillStyle=myColor[ i ];
+  ctx.fillRect(200,y-15,20,20)
+  ctx.fillStyle = "black";
+  ctx.font = "16px Arial";
+  ctx.fillText(myLabels[ i ], 230, y );
+  var perc = ( 100.0 * myData[ i ] / myTotal ).toFixed(1);
+  ctx.fillText( perc + "% (" + myData[ i ] + units + ")", 330, y );
+ }
+}
+function toggleTable(tableName)
+{
+ var table = document.getElementById(tableName);
+ table.style.display = (table.style.display == "table") ? "none" : "table";
+}
+</script>
+<h1>FASTBuild Report</h1>
+<h2 id="overview">Overview</h2>
+<table width=990>
+<tr><th width=150>Item</th><th>Details</th></tr>
+<tr><td width=80>Cmd Line Options</td><td>fbuild  Debug -report -summary -dist -cache -showcmds -verbose </td></tr><tr><td>Target(s)</td><td>Debug</td></tr>
+<tr><td>Result</td><td>FAILED</td></tr>
+<tr><td>Time</td><td>0.369s</td></tr>
+<tr><td>CPU Time</td><td>0.698s (1.9:1)</td></tr>
+<tr><td>Version</td><td>v1.02 Windows</td></tr>
+<tr><td>Report Generated</td><td>0.001s                       - Fri 30-Oct-2020 - 18:49:32</td></tr>
+</table>
+<h2 id="cpuTimeByNodeType">CPU Time by Node Type</h2>
+<section>
+<div>
+<canvas id="canvas1" width="500" height="240">
+HTML5 Canvas support required.
+</canvas>
+</div>
+<script type="text/javascript">
+    var myData = [0.685,0.013,0.000,0.000,0.000,0.000,0.000,0.000];
+    var myLabels = ["Object","Exec","File","Alias","Exe","Unity","Compiler","ObjectList"];
+    var myColors = ["#ff8888","#0","#888888","#228b22","#ffff88","#88aaff","#dda0dd","#444444"];
+    plotData("canvas1",myData,myLabels,myColors," s");
+</script>
+</section>
+<table width=990>
+<tr><th width=80>Type</th><th width=80>Time</th><th width=80>Processed</th><th width=80>Built</th><th width=80>Cache Hits</th></tr>
+<tr><td>Object</td><td>0.685s</td><td>3</td><td>0</td><td>0</td></tr>
+<tr><td>Exec</td><td>0.013s</td><td>1</td><td>0</td><td>-</td></tr>
+<tr><td>File</td><td>0.000s</td><td>44</td><td>34</td><td>-</td></tr>
+<tr><td>Alias</td><td>0.000s</td><td>1</td><td>0</td><td>-</td></tr>
+<tr><td>Exe</td><td>0.000s</td><td>1</td><td>0</td><td>-</td></tr>
+<tr><td>Unity</td><td>0.000s</td><td>1</td><td>0</td><td>-</td></tr>
+<tr><td>Compiler</td><td>0.000s</td><td>3</td><td>0</td><td>-</td></tr>
+<tr><td>ObjectList</td><td>0.000s</td><td>4</td><td>0</td><td>-</td></tr>
+</table>
+<h2 id="cacheStats">Cache Stats</h2>
+<section>
+<div>
+<canvas id="canvas2" width="500" height="140">
+HTML5 Canvas support required.
+</canvas>
+</div>
+<script type="text/javascript">
+    var myData = [0.000,2.000,0.000];
+    var myLabels = ["Uncacheable","Cache Miss","Cache Hit"];
+    var myColors = ["#ff8888","#ffcc88","#88ff88"];
+    plotData("canvas2",myData,myLabels,myColors,"");
+</script>
+</section>
+<table width=990>
+<tr><th>Library</th><th style="width:70px;">Items</th><th style="width:90px;">Out-of-Date</th><th style="width:90px;">Cacheable</th><th style="width:70px;">Hits</th><th style="width:70px;">Misses</th><th style="width:60px;">Stores</th><th style="width:100px;">Store Time</th></tr>
+<tr><td>Objects-x64-Debug</td><td>2</td><td>2 <font class='perc'>(100.0%)</font></td><td>2 <font class='perc'>(100.0%)</font></td><td>0 <font class='perc'>(0.0%)</font></td><td>2 <font class='perc'>(100.0%)</font></td><td>0</td><td>0.000s</td></tr>
+</table>
+<h2 id="cpuTimeByLibrary">CPU Time by Library</h2>
+<table width=990>
+<tr><th style="width:80px;">Time</th><th style="width:50px;">%</th><th style="width:70px;">Obj Built</th><th style="width:50px;">Type</th><th>Name</th></tr>
+<tr><td>0.685s</td><td>100.0</td><td>2</td><td>ObjectList</td><td>Objects-x64-Debug</td></tr>
+</table>
+<h2 id="cpuTimeByItem">CPU Time by Item</h2>
+<table width=990>
+<tr><th style="width:100px;">Time</th><th style="width:100px;">Type</th><th style="width:120px;">Cache</th><th>Name</th></tr>
+<tr><td>0.343s</td><td>Object</td><td>N/A</td><td>D:\QMake2Fastbuild-master\MyProject\MyProject\Debug\mainwindow.obj</td></tr>
+<tr><td>0.342s</td><td>Object</td><td>N/A</td><td>D:\QMake2Fastbuild-master\MyProject\MyProject\Debug\main.obj</td></tr>
+<tr><td>0.013s</td><td>Exec</td><td>N/A</td><td>D:\QMake2Fastbuild-master\MyProject\MyProject\Debug\moc_predefs.h</td></tr>
+</table>
+<h2 id="includes">Includes</h2>
+<h3>Objects-x64-Debug</h3>
+No includes.
+</table>
+<br><br><br>
+</body>
+</html>

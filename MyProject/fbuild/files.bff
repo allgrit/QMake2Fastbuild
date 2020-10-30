@@ -1,0 +1,15 @@
+.Sources = { 
+             'main.cpp',
+             'mainwindow.cpp'
+           } 
+.Headers = { 
+             'mainwindow.h'
+           } 
+.Forms   = { 
+             'mainwindow.ui'
+           } 
+.Resources={ 
+           } 
+.Mocables= { 
+             'mainwindow.h'
+           } 

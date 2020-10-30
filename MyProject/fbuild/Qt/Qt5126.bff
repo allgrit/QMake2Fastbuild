@@ -1,0 +1,101 @@
+// Qt 5.12.6
+//------------------------------------------------------------------------------
+.Qt5_12_6_BasePath = 'C:\Qt\Qt5.12.6\5.12.6\msvc2017_64'
+
+// UI Compiler
+//------------------------------------------------------------------------------
+Compiler( 'Compiler-Qt5.12.6-uic' )
+{
+    .Root       = '$Qt5_12_6_BasePath$\bin'
+    .Executable = '$Root$\uic.exe'
+    //.ExtraFiles = { '$Root$\x86_amd64\c1.dll' }
+
+    .CompilerFamily = 'custom'
+}
+
+// Meta Object Compiler
+//------------------------------------------------------------------------------
+Compiler( 'Compiler-Qt5.12.6-moc' )
+{
+    .Root       = '$Qt5_12_6_BasePath$\bin'
+    .Executable = '$Root$\moc.exe'
+    //.ExtraFiles = { '$Root$\x86_amd64\c1.dll' }
+
+    .CompilerFamily = 'custom'
+}
+
+// Resource Compiler
+//------------------------------------------------------------------------------
+Compiler( 'Compiler-Qt5.12.6-rcc' )
+{
+    .Root       = '$Qt5_12_6_BasePath$\bin'
+    .Executable = '$Root$\rcc.exe'
+    //.ExtraFiles = { '$Root$\x86_amd64\c1.dll' }
+
+    .CompilerFamily = 'qt-rcc'
+}
+
+.Qt5_12_6IncPaths                   = { 
+                                        '$Qt5_12_6_BasePath$\include',
+                                        '$Qt5_12_6_BasePath$\include\QtOpenGL',
+                                        '$Qt5_12_6_BasePath$\include\QtPrintSupport',
+                                        '$Qt5_12_6_BasePath$\include\QtWidgets',
+                                        '$Qt5_12_6_BasePath$\include\QtWinExtras',
+                                        '$Qt5_12_6_BasePath$\include\QtGui',
+                                        '$Qt5_12_6_BasePath$\include\QtANGLE',
+                                        '$Qt5_12_6_BasePath$\include\QtCore',
+                                        '$Qt5_12_6_BasePath$\mkspecs\win32-msvc'
+                                      }
+                                      
+.Qt5_12_6IncPaths_Flags = ''
+ForEach( .Inc in .Qt5_12_6IncPaths )
+{
+    ^Qt5_12_6IncPaths_Flags	+ ' -I$Inc$'
+}
+
+// Toolchain
+//------------------------------------------------------------------------------
+.ToolChain_Qt5_12_6 =
+[
+    .CompilerOptions                = .Qt5_12_6IncPaths_Flags
+    .CompilerOptionsDebug           = ' -DQT_QML_DEBUG'
+    .CompilerOptionsProfile         = ' -DQT_QML_DEBUG'
+                                    + ' -DQT_NODEBUG'
+    .CompilerOptionsRelease         = ' -DQT_NO_DEBUG'
+    .PCHOptions                     = .Qt5_12_6IncPaths_Flags
+    .LinkerOptions                  = ' /LIBPATH:$Qt5_12_6_BasePath$\lib'
+                                    + ' /LIBPATH:C:\utils\my_sql\my_sql\lib'
+                                    + ' /LIBPATH:C:\utils\postgresql\pgsql\lib'
+                                    + ' shell32.lib'
+    .LinkerOptionsDebug             = ' $Qt5_12_6_BasePath$\lib\qtmaind.lib'
+                                    + ' $Qt5_12_6_BasePath$\lib\Qt5OpenGLd.lib'
+                                    + ' $Qt5_12_6_BasePath$\lib\Qt5PrintSupportd.lib'
+                                    + ' $Qt5_12_6_BasePath$\lib\Qt5Widgetsd.lib'
+                                    + ' $Qt5_12_6_BasePath$\lib\Qt5WinExtrasd.lib'
+                                    + ' $Qt5_12_6_BasePath$\lib\Qt5Guid.lib'
+                                    + ' $Qt5_12_6_BasePath$\lib\Qt5Cored.lib'
+    .LinkerOptionsProfile           = ' $Qt5_12_6_BasePath$\lib\qtmain.lib'
+                                    + ' $Qt5_12_6_BasePath$\lib\Qt5OpenGL.lib'
+                                    + ' $Qt5_12_6_BasePath$\lib\Qt5PrintSupport.lib'
+                                    + ' $Qt5_12_6_BasePath$\lib\Qt5Widgets.lib'
+                                    + ' $Qt5_12_6_BasePath$\lib\Qt5WinExtras.lib'
+                                    + ' $Qt5_12_6_BasePath$\lib\Qt5Gui.lib'
+                                    + ' $Qt5_12_6_BasePath$\lib\Qt5Core.lib'
+    .LinkerOptionsRelease           = ' $Qt5_12_6_BasePath$\lib\qtmain.lib'
+                                    + ' $Qt5_12_6_BasePath$\lib\Qt5OpenGL.lib'
+                                    + ' $Qt5_12_6_BasePath$\lib\Qt5PrintSupport.lib'
+                                    + ' $Qt5_12_6_BasePath$\lib\Qt5Widgets.lib'
+                                    + ' $Qt5_12_6_BasePath$\lib\Qt5WinExtras.lib'
+                                    + ' $Qt5_12_6_BasePath$\lib\Qt5Gui.lib'
+                                    + ' $Qt5_12_6_BasePath$\lib\Qt5Core.lib'
+]
+
+// PATH environment variable
+//------------------------------------------------------------------------------
+.QT5_12_6_PATH                      = '$Qt5_12_6_BasePath$\bin'
+
+// QT_VERSION
+//------------------------------------------------------------------------------
+.QT5_12_6_VERSION                   = '5.12.6'
+
+//------------------------------------------------------------------------------

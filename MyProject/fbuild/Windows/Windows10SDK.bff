@@ -1,0 +1,43 @@
+// Windows 10 SDK
+//------------------------------------------------------------------------------
+
+// Root Paths
+//------------------------------------------------------------------------------
+.Windows10_SDKBasePath          = 'C:\Program Files (x86)\Windows Kits\10'
+.Windows10_SDKVersion           = '10.0.18362.0'
+
+// Defines
+//------------------------------------------------------------------------------
+.WindowsSDK_Defines             = ' -D_WINDOWS'
+                                + ' -DWIN32'
+
+// Windows 10 SDK
+//------------------------------------------------------------------------------
+.Windows10_SDK_X64 =
+[
+    .WindowsSDK_IncludePaths        = ' "-I$Windows10_SDKBasePath$/Include/$Windows10_SDKVersion$/um"'
+                                    + ' "-I$Windows10_SDKBasePath$/Include/$Windows10_SDKVersion$/shared"'
+                                    + ' "-I$Windows10_SDKBasePath$/Include/$Windows10_SDKVersion$/winrt"'
+                                    + ' "-I$Windows10_SDKBasePath$/Include/$Windows10_SDKVersion$/ucrt"'
+
+    .CommonCompilerOptions          = .WindowsSDK_IncludePaths
+                                    + .WindowsSDK_Defines
+                                    + ' -DWIN64'
+
+    .CompilerOptions                = .CommonCompilerOptions
+    .PCHOptions                     = .CommonCompilerOptions
+
+    .LinkerOptions                  = ' /LIBPATH:"$Windows10_SDKBasePath$/Lib/$Windows10_SDKVersion$/um/x64"'
+                                    + ' /LIBPATH:"$Windows10_SDKBasePath$/Lib/$Windows10_SDKVersion$/ucrt/x64"'
+                                    + ' /MACHINE:X64'
+]
+Compiler( 'ResourceCompiler-Windows10' )
+{
+    .Executable                 = '$Windows10_SDKBasePath$/Bin/$Windows10_SDKVersion$/x64/rc.exe'
+    .CompilerFamily             = 'custom'
+}
+
+.WIN10_SDK_PATH                     = '$Windows10_SDKBasePath$\bin\$Windows10_SDKVersion$\x64'
+
+
+//------------------------------------------------------------------------------
