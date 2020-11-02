@@ -139,11 +139,12 @@
         // 1/4 generate moc_predefs.h
         Exec( 'Qt-Moc-Predefs-$Platform$-$Config$' )
         {
+            .Root       = 'C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.16.27023\bin\Hostx64\x64'
             .ExecOutput     = '$OutputBase$\moc_predefs.h'
 
             .ExecInput     = '$QT_PATH$\..\mkspecs\features\data\dummy.cpp'
 
-            .ExecExecutable         = .VS_CL_EXE
+            .ExecExecutable         = '$Root$\cl.exe'
             .ExecArguments          = ' -Bx$QT_PATH$\qmake.exe'
                                     + ' -nologo'
                                     + ' -Zc:wchar_t'
